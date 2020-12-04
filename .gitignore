@@ -1,0 +1,6 @@
+.DS_Store
+
+#Genrated Project Files
+node_modules/
+build/
+dist/

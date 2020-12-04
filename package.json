@@ -1,0 +1,31 @@
+{
+  "name": "interest_site",
+  "version": "1.0.0",
+  "description": "My Interest Site Redesign",
+  "main": "blog_generator.js",
+  "scripts": {
+    "precompile": "echo \"Error: no precompile process specified\"",
+    "compile:css": "./node_modules/less/bin/lessc ./src/LESS/styles.less > ./build/css/styles.css",
+    "compile:html": "node blog_generator.js",
+    "compile": "npm run compile:css && npm run compile:html",
+    "lint": "jshint ./build/js/*.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "document": "./node_modules/bin/jsdoc ./build/js/*.js -d docs",
+    "build": "npm run compile && npm run lint && npm run test && npm run document"
+  },
+  "author": "Justin Gohde",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.5",
+    "fs": "0.0.1-security",
+    "jsdocs": "^1.0.0",
+    "jshint": "^2.12.0",
+    "less": "^3.12.2",
+    "path": "^0.12.7"
+  },
+  "jshintConfig": {
+    "curly": true,
+    "eqeqeq": true,
+    "nocomma": true
+  }
+}
