@@ -9,7 +9,7 @@
     "compile:html": "node blog_generator.js",
     "compile": "npm run compile:css && npm run compile:html",
     "lint": "jshint ./build/js/*.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "document": "./node_modules/bin/jsdoc ./build/js/*.js -d docs",
     "build": "npm run compile && npm run lint && npm run test && npm run document"
   },
@@ -28,5 +28,11 @@
     "curly": true,
     "eqeqeq": true,
     "nocomma": true
+  },
+  "jest": {
+    "verbose": true,
+    "testMatch": [
+      "**/test/**/*.test.js"
+    ]
   }
 }
