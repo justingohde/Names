@@ -1,61 +1,68 @@
-//letter_object_split.js
-const path = require('path');
-const fs = require('fs');
+const fs = require("fs");
+const path = require("path");
 
-const source = '../data/original/names'
+const source = '../data/clean/names/gender'
 const dest = '../data/clean/names/objects';
 const sourcePath = path.join(__dirname, source);
 const destPath = path.join(__dirname, dest);
 
-var fileSizeInBytes_before = 0;
-var fileSizeInBytes_after = 0;
-
-fs.readdir(sourcePath, function(err, files) {
-  if (err) return console.log('Unable to scan directory: ' + err);
-
-  files.forEach(function(file) {
-
-    const filePath = path.join(sourcePath, file);
-    const destFileName = file.replace("yob", "");
-
-    fileSizeInBytes_before += fs.statSync(filePath).size;
-
-    fs.readFile(filePath, "utf8", function(err, contents) {
-
-      if (err) return console.log('Unable to read file: ' + err);
-      else {
-        const males = {};
-        const females = {};
-        const contentsArray = contents.split("\r\n");
-
-        contentsArray.forEach(function(line) {
-          if (line.length > 0) {
-            const data = line.split(",");
-
-            const name = data[0].trim();
-            const count = parseInt(data[2].trim());
-            if (data[1].trim().toUpperCase() == "F") {
-              females[name] = count;
-            } else {
-              males[name] = count;
-            }
-          }
-        });
-
-        const femalePath = path.join(destPath, destFileName.replace(".", "_F."));
-        const malePath = path.join(destPath, destFileName.replace(".", "_M."));
-
-        fs.writeFileSync(femalePath, JSON.stringify(females));
-        fs.writeFileSync(malePath, JSON.stringify(males));
-        fileSizeInBytes_after = fileSizeInBytes_after + fs.statSync(femalePath).size;
-        fileSizeInBytes_after = fileSizeInBytes_after + fs.statSync(malePath).size;
-
-        /*  console.log("Total file size before:" + fileSizeInBytes_before / (1024 * 1024) + "Mb");
-          console.log("Total file size after:" + fileSizeInBytes_after / (1024 * 1024) + "Mb");
-          console.log("Difference in total file size:" + ((fileSizeInBytes_before - fileSizeInBytes_after) / (1024 * 1024)) + "Mb")
-        */
-      }
-    });
-
-  });
+//Create an array of all the years represented in the directory
+let years = [];
+const fileNames = fs.readdirSync(sourcePath);
+fileNames.forEach(function(filename) {
+  if (filename != ".DS_Store") {
+    const fileInfo = filename.split("_");
+    const year = parseInt(fileInfo[0].trim());
+    if (!years.includes(year)) years.push(year);
+  }
 });
+
+//Create an object for each letter of the alphabet
+const A = {};
+A["years"] = years;
+A["names"] = {};
+A["names"]["F"] = {};
+A["names"]["M"] = {};
+
+const Apath = path.join(destPath, "A");
+if (!fs.existsSync(Apath)) {
+  fs.mkdirSync(Apath);
+}
+
+fileNames.forEach(function(filename) {
+  if (filename != ".DS_Store") {
+    const fileSource = path.join(sourcePath, filename);
+    const fileContent = fs.readFileSync(fileSource, 'utf-8');
+
+    //get year and gender from filename
+    const fileInfo = filename.split("_");
+    const fileYear = parseInt(fileInfo[0].trim());
+    const fileGender = fileInfo[1].replace(".json", "");
+
+    //turn file content into a JSON object
+    const yearNames = JSON.parse(fileContent);
+
+    for (name in yearNames) {
+      if (name.substring(0, 1) == "A") {
+        //create array of yearcounts for first occurrence of name
+        if (!A["names"][fileGender][name])
+          //A["names"][fileGender][name] = new Array(years.length).fill(0);
+          A["names"][fileGender][name] = {};
+
+        //find index of year in list of years, and add count to that spot
+        //const yearIndex = A["years"].indexOf(fileYear);
+        A["names"][fileGender][name][fileYear] = parseInt(yearNames[name]);
+      }
+    }
+  } //exclude .DS_Store processing
+
+});
+const femalesPath = path.join(Apath, "A.json");
+fs.writeFileSync(femalesPath, JSON.stringify(A["names"]["F"]));
+
+
+/*
+const malesPath = path.join(destPath, filename.replace(".txt", "_M.json"));
+
+fs.writeFileSync(malesPath, JSON.stringify(males));
+*/
