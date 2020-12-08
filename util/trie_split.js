@@ -1,6 +1,24 @@
 const fs = require("fs");
 const path = require("path");
+const TrieSearch = require('Trie-Search');
 
+
+let aobjects = [];
+
+let As = fs.readFileSync('../data/clean/names/objects/A/A_F.json');
+let Aobject = JSON.parse(As);
+for (name in Aobject) {
+  let o = {}
+  o[name] = Aobject[name]
+  aobjects.push(o);
+}
+
+let ts = new TrieSearch();
+ts.addFromObject(Aobject);
+fs.writeFileSync('../data/clean/names/objects/trie/A_F.json', JSON.stringify(ts));
+
+
+/*
 const source = '../data/clean/names/gender'
 const dest = '../data/clean/names/objects';
 const sourcePath = path.join(__dirname, source);
@@ -71,3 +89,4 @@ for (let letter = 65; letter < 91; letter++) {
 }
 
 console.log("Total file size after:" + fileSizeInBytes_after / (1024 * 1024) + "Mb");
+*/
