@@ -1,4 +1,4 @@
-let data = require('../data/clean/density/allStates.json');
+//let data = require('../data/clean/density/allStates.json');
 let stateNames = require('../data/stateLookup.json');
 
 describe('Checking data format', () => {
