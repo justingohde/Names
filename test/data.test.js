@@ -2,6 +2,7 @@
 let stateNames = require('../data/stateLookup.json');
 
 describe('Checking data format', () => {
+  console.log(stateNames);
   test("All %'s should be represented as decimals'", () => {
     expect(true).toEqual(true);
   });
