@@ -2,23 +2,37 @@
 
 <%- include ('global/navbar', {site_content: site_content });  %>
 
-
-<h1>About- US Name Diversity</h1>
-
-
+<h1>About- Changes in US Name Diversity</h1>
 
 <h2>Considerations and Vocabulary</h2>
-From the Social Security Administration:
+<h3>Important Definitions</h3>
 <ul>
-  <li>Names with fewer than 5 occurrences in any geographic area are excluded to preserve privacy.</li>
-  <li></li>
-  <li></li>
+  <li>Name Density: (Number of Unique Names)/(Total Number of Babies)</li>
+  <li>Name Density (Female): (Number of Unique Female Names)/(Number of Female Babies)</li>
+  <li>Name Density (Male): (Number of Unique Male Names)/(Number of Male Babies)</li>
+  <li>Weighted Name Density: Sum of (Unique Name * (NameCount/total number of babies))/(Total Number of Babies)</li>
+</ul>
+Name Density of 1: Every name is different
+Name Density close to 0: Most names are the same.
+
+A regular name density assumes a uniform distribution of names.
+A weighted name density accounts for some names being more popular than others.
+
+
+
+<h3>Important Considerations</h3>
+<ul>
+  <li>Names with fewer than 5 occurrences in any geographic area are excluded from data set by the Social Security Administration
+    to preserve privacy.</li>
+  <li>
+    Similar names are counted as different names if they are spelled differently. Even one letter difference. Jennie and Jenny are different names. Trace the path of "Jen" over time to illustrate: The evolution of Jennifer.
+  </li>
 </ul>
 
+<h2>Background and History</h2>
+<a href="https://www.ssa.gov/oact/babynames/background.html">Background and History of the Dataset</a>
 
-<a href="https://www.ssa.gov/oact/babynames/background.html"> Background and History</a>
-
-<h3>Resource Links</h3>
+<h2>Resource Links</h2>
 <ul>
   <li>
     <a href="https://www.ssa.gov/oact/babynames/limits.html">Social Scecurity Administration- Baby Name Data</a>
